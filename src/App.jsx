@@ -1,23 +1,27 @@
 import { useState, useEffect } from "react";
 
 import "./App.css";
-
 function App() {
   const [items, setItems] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  
+  
+  const apiUrl = import.meta.env.VITE_API_URL;
+  
+
 
  
   useEffect(() => {
-    fetch("http://localhost:5001/api/items")
+    fetch(`${apiUrl}/api/items`)
       .then((res) => res.json())
       .then((data) => setItems(data))
       .catch((err) => console.error("Error fetching items:", err));
-  }, []);
+  }, [apiUrl]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:5001/api/items", {
+    fetch(`${apiUrl}/api/items`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +38,7 @@ function App() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5001/api/items/${id}`, {
+    fetch(`${apiUrl}/api/items/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
