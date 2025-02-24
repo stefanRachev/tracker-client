@@ -46,7 +46,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">Items</h1>
+      <h1 className="title-heading">Items</h1>
 
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-8">
         <div className="space-y-4">
