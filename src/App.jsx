@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import Header from "./components/Header";
+
 
 function App() {
   const [items, setItems] = useState([]);
@@ -45,6 +47,8 @@ function App() {
   };
 
   return (
+    <>
+    <Header/>
     <div className="min-h-screen bg-gray-100 p-8">
       <h1 className="title-heading">Items</h1>
 
@@ -88,6 +92,7 @@ function App() {
         ))}
       </ul>
     </div>
+    </>
   );
 }
 
