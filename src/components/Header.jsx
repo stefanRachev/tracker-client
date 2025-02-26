@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -7,7 +8,7 @@ const Header = () => {
 
   return (
     <header className="bg-blue-500 p-4">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+      <div className="max-w-7xl mx-auto flex justify-between items-center h-16">
         <div className="text-white text-2xl font-bold">Expense Tracker</div>
         <button
           className="lg:hidden text-white"
@@ -30,19 +31,19 @@ const Header = () => {
           </svg>
         </button>
         <nav
-          className={`${
+          className={`absolute top-16 left-0 w-full bg-blue-500 lg:static lg:flex lg:items-center lg:space-x-6 ${
             menuOpen ? "block" : "hidden"
-          } lg:block lg:flex lg:space-x-6`}
+          }`}
         >
-          <a href="/" className="text-white hover:text-gray-300">
+          <NavLink to="/" className="block py-2 px-4 text-white hover:bg-blue-600">
             Home
-          </a>
-          <a href="/expenses" className="text-white hover:text-gray-300">
+          </NavLink>
+          <NavLink to="/expenses" className="block py-2 px-4 text-white hover:bg-blue-600">
             Expenses
-          </a>
-          <a href="/budget" className="text-white hover:text-gray-300">
+          </NavLink>
+          <NavLink to="/budget" className="block py-2 px-4 text-white hover:bg-blue-600">
             Budget
-          </a>
+          </NavLink>
         </nav>
       </div>
     </header>
