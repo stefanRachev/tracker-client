@@ -7,7 +7,7 @@ const Header = () => {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <header className="bg-blue-500 p-4">
+    <header className="bg-blue-500 p-4 md:p-6 lg:p-8 xl:p-10">
       <div className="max-w-7xl mx-auto flex justify-between items-center h-16">
         <div className="text-white text-2xl font-bold">Expense Tracker</div>
         <button

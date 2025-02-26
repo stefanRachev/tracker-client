@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
+import Content from "./layout/Content";
+
 
 
 function App() {
@@ -49,6 +51,7 @@ function App() {
   return (
     <>
     <Header/>
+    <Content/>
     <div className="min-h-screen bg-gray-100 p-8">
       <h1 className="title-heading">Items</h1>
 
