@@ -35,13 +35,28 @@ const Header = () => {
             menuOpen ? "block" : "hidden"
           }`}
         >
-          <NavLink to="/" className="block py-2 px-4 text-white hover:bg-blue-600">
+          <NavLink
+            to="/"
+            className="block py-2 px-4 text-white hover:bg-blue-600"
+          >
             Home
           </NavLink>
-          <NavLink to="/expenses" className="block py-2 px-4 text-white hover:bg-blue-600">
+          <NavLink
+            to="/expenses"
+            className="block py-2 px-4 text-white hover:bg-blue-600"
+          >
             Expenses
           </NavLink>
-          <NavLink to="/budget" className="block py-2 px-4 text-white hover:bg-blue-600">
+          <NavLink
+            to="/register"
+            className="block py-2 px-4 text-white hover:bg-blue-600"
+          >
+            Register
+          </NavLink>
+          <NavLink
+            to="/budget"
+            className="block py-2 px-4 text-white hover:bg-blue-600"
+          >
             Budget
           </NavLink>
         </nav>
