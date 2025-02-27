@@ -3,18 +3,23 @@ import RegisterForm from "../components/RegisterForm";
 
 const RegisterPage = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 p-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+    <div className="flex justify-center items-center bg-gradient-to-br from-blue-500 to-purple-600 p-4">
+      <div className="w-full max-w-md p-8 rounded-lg shadow-lg bg-white/90 backdrop-blur-sm h-fit"> 
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">
           Create an Account
         </h1>
-        <p className="text-center text-gray-600 mb-4">
+        <p className="text-center text-gray-600 mb-2">
           Enter your details to sign up.
         </p>
 
         <RegisterForm />
 
-        <p className="text-center text-gray-600 mt-4">
+        <p className="text-sm text-gray-500 mt-2 text-center">
+          We recommend using a combination of uppercase and lowercase letters,
+          numbers, and special characters for a more secure password.
+        </p>
+
+        <p className="text-center text-gray-600 mt-2">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-500 hover:underline">
             Log in here

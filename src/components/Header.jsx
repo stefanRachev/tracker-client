@@ -31,7 +31,7 @@ const Header = () => {
           </svg>
         </button>
         <nav
-          className={`absolute top-16 left-0 w-full bg-blue-500 lg:static lg:flex lg:items-center lg:space-x-6 ${
+          className={`absolute top-16 left-0 w-full bg-blue-500 lg:static lg:flex lg:items-center lg:space-x-6 z-20 ${
             menuOpen ? "block" : "hidden"
           }`}
         >
