@@ -7,9 +7,11 @@ const Header = () => {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <header className="bg-blue-500 p-4 md:p-6 lg:p-8 xl:p-10">
-      <div className="max-w-7xl mx-auto flex justify-between items-center h-16">
-        <div className="text-white text-2xl font-bold">Expense Tracker</div>
+    <header className="bg-blue-500 p-3 md:p-4 lg:p-5 xl:p-4">
+      <div className="max-w-7xl mx-auto flex justify-between items-center min-h-16">
+        <div className="text-white text-2xl font-bold whitespace-nowrap">
+          Expense Tracker
+        </div>
         <button
           className="lg:hidden text-white"
           onClick={toggleMenu}
@@ -31,31 +33,35 @@ const Header = () => {
           </svg>
         </button>
         <nav
-          className={`absolute top-16 left-0 w-full bg-blue-500 lg:static lg:flex lg:items-center lg:space-x-6 z-20 ${
-            menuOpen ? "block" : "hidden"
-          }`}
+          className={`absolute top-16 left-0 w-full bg-blue-500 lg:static lg:flex lg:items-center lg:space-x-6 z-20 transform transition-all duration-300
+                ${menuOpen ? "translate-x-0" : "-translate-x-full"} 
+                lg:translate-x-0 lg:flex`}
         >
           <NavLink
             to="/"
-            className="block py-2 px-4 text-white hover:bg-blue-600"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            onClick={() => setMenuOpen(false)}
           >
             Home
           </NavLink>
           <NavLink
             to="/expenses"
-            className="block py-2 px-4 text-white hover:bg-blue-600"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            onClick={() => setMenuOpen(false)}
           >
             Expenses
           </NavLink>
           <NavLink
             to="/register"
-            className="block py-2 px-4 text-white hover:bg-blue-600"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            onClick={() => setMenuOpen(false)}
           >
             Register
           </NavLink>
           <NavLink
             to="/budget"
-            className="block py-2 px-4 text-white hover:bg-blue-600"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            onClick={() => setMenuOpen(false)}
           >
             Budget
           </NavLink>
