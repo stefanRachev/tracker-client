@@ -122,7 +122,7 @@ const RegisterForm = () => {
             value={formData.password}
             onChange={handleChange}
             required
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10" // Добавяме padding вдясно за бутона
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
           />
           <button
             type="button"
