@@ -8,6 +8,8 @@ const RegisterForm = () => {
     confirmPassword: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -75,7 +77,7 @@ const RegisterForm = () => {
             htmlFor="username"
             className="block text-sm font-medium text-gray-700"
           >
-            Username
+            Username <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -83,6 +85,7 @@ const RegisterForm = () => {
             name="username"
             value={formData.username}
             onChange={handleChange}
+            required
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -92,7 +95,7 @@ const RegisterForm = () => {
             htmlFor="email"
             className="block text-sm font-medium text-gray-700"
           >
-            Email
+            Email <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -100,42 +103,67 @@ const RegisterForm = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
+            required
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 relative">
           <label
             htmlFor="password"
             className="block text-sm font-medium text-gray-700"
           >
-            Password
+            Password <span className="text-red-500">*</span>
           </label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             id="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10" // Добавяме padding вдясно за бутона
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 mt-6"
+          >
+            {showPassword ? (
+              <span className="text-gray-500">🙈</span>
+            ) : (
+              <span className="text-gray-500">👁️</span>
+            )}
+          </button>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 relative">
           <label
             htmlFor="confirmPassword"
             className="block text-sm font-medium text-gray-700"
           >
-            Confirm Password
+            Confirm Password <span className="text-red-500">*</span>
           </label>
           <input
-            type="password"
+            type={showConfirmPassword ? "text" : "password"}
             id="confirmPassword"
             name="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
           />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 mt-6"
+          >
+            {showConfirmPassword ? (
+              <span className="text-gray-500">🙈</span>
+            ) : (
+              <span className="text-gray-500">👁️</span>
+            )}
+          </button>
         </div>
 
         {errorMessage && (
