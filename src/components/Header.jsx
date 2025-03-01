@@ -7,66 +7,96 @@ const Header = () => {
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <header className="bg-blue-500 p-3 md:p-4 lg:p-5 xl:p-4">
-      <div className="max-w-7xl mx-auto flex justify-between items-center min-h-16">
-        <div className="text-white text-2xl font-bold whitespace-nowrap">
+    <header className="bg-gradient-to-r from-blue-500 to-purple-600 shadow-md">
+      <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
+     
+        <NavLink to="/" className="text-white text-2xl font-bold">
           Expense Tracker
-        </div>
-        <button
-          className="lg:hidden text-white"
-          onClick={toggleMenu}
-          aria-label="Open menu"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
-        <nav
-          className={`absolute top-16 left-0 w-full bg-blue-500 lg:static lg:flex lg:items-center lg:space-x-6 z-20 transform transition-all duration-300
-                ${menuOpen ? "translate-x-0" : "-translate-x-full"} 
-                lg:translate-x-0 lg:flex`}
-        >
+        </NavLink>
+
+        <nav className="hidden md:flex space-x-6">
           <NavLink
             to="/"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive ? "nav-link bg-blue-700" : "nav-link"
+            }
           >
             Home
           </NavLink>
           <NavLink
-            to="/expenses"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setMenuOpen(false)}
+            to="/about"
+            className={({ isActive }) =>
+              isActive ? "nav-link bg-blue-700" : "nav-link"
+            }
           >
-            Expenses
+            About
+          </NavLink>
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              isActive ? "nav-link bg-blue-700" : "nav-link"
+            }
+          >
+            Login
           </NavLink>
           <NavLink
             to="/register"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive ? "nav-link bg-blue-700" : "nav-link"
+            }
           >
             Register
           </NavLink>
-          <NavLink
-            to="/budget"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={() => setMenuOpen(false)}
-          >
-            Budget
-          </NavLink>
         </nav>
+
+        <button
+          className="md:hidden text-white text-2xl focus:outline-none"
+          onClick={toggleMenu}
+        >
+          ☰
+        </button>
       </div>
+
+      {menuOpen && (
+        <div className="md:hidden bg-blue-500 text-white text-center space-y-4 p-4">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "nav-link bg-blue-700" : "nav-link"
+            }
+            onClick={toggleMenu}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive ? "nav-link bg-blue-700" : "nav-link"
+            }
+            onClick={toggleMenu}
+          >
+            About
+          </NavLink>
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              isActive ? "nav-link bg-blue-700" : "nav-link"
+            }
+            onClick={toggleMenu}
+          >
+            Login
+          </NavLink>
+          <NavLink
+            to="/register"
+            className={({ isActive }) =>
+              isActive ? "nav-link bg-blue-700" : "nav-link"
+            }
+            onClick={toggleMenu}
+          >
+            Register
+          </NavLink>
+        </div>
+      )}
     </header>
   );
 };

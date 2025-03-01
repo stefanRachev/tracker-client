@@ -172,7 +172,7 @@ const RegisterForm = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+          className="w-full bg-gradient-to-r from-green-500 to-blue-400 text-white p-2 rounded-md hover:from-blue-500 hover:to-green-500 transition-colors duration-300"
         >
           Sign Up
         </button>

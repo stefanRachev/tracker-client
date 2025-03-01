@@ -3,7 +3,7 @@ import RegisterForm from "../components/RegisterForm";
 
 const RegisterPage = () => {
   return (
-    <div className="flex justify-center items-center bg-gradient-to-br from-blue-500 to-purple-600 p-4">
+    <div className="flex justify-center items-center bg-gradient-to-br from-green-500 to-blue-400 p-4">
       <div className="w-full max-w-md p-8 rounded-lg shadow-lg bg-white/90 backdrop-blur-sm h-fit"> 
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">
           Create an Account
