@@ -4,7 +4,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 p-6">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-800 text-white p-6">
       <div className="text-center max-w-3xl">
         <h1 className="text-4xl font-bold mb-4">Simple Expense Tracker 💰</h1>
         <p className="text-lg mb-6">
@@ -14,16 +14,26 @@ export default function LandingPage() {
 
         <div className="grid md:grid-cols-3 gap-6 text-left mb-8">
           <div className="p-4 bg-white rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold">📊 Charts & Statistics</h3>
-            <p className="text-sm">Monitor your budget with visual reports.</p>
+            <h3 className="text-xl font-semibold text-gray-800">
+              📊 Charts & Statistics
+            </h3>
+            <p className="text-sm text-gray-600">
+              Monitor your budget with visual reports.
+            </p>
           </div>
           <div className="p-4 bg-white rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold">📂 Expense Categorization</h3>
-            <p className="text-sm">Group your expenses into categories.</p>
+            <h3 className="text-xl font-semibold text-gray-800">
+              📂 Expense Categorization
+            </h3>
+            <p className="text-sm text-gray-600">
+              Group your expenses into categories.
+            </p>
           </div>
           <div className="p-4 bg-white rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold">🔒 Secure Data Storage </h3>
-            <p className="text-sm">
+            <h3 className="text-xl font-semibold text-gray-800">
+              🔒 Secure Data Storage
+            </h3>
+            <p className="text-sm text-gray-600">
               Your financial data is safely stored and protected.
             </p>
           </div>
