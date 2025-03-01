@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { validateFields } from "../utils/formValidation";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -7,7 +8,13 @@ const RegisterForm = () => {
     password: "",
     confirmPassword: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -21,23 +28,11 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !formData.username ||
-      !formData.email ||
-      !formData.password ||
-      !formData.confirmPassword
-    ) {
-      setErrorMessage("Please fill out all fields.");
-      return;
-    }
+    const validationErrors = validateFields(formData);
+    console.log("Validation Errors:", validationErrors);
 
-    if (formData.password !== formData.confirmPassword) {
-      setErrorMessage("Passwords do not match.");
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setErrorMessage("Password must be at least 6 characters long.");
+    if (Object.keys(validationErrors).length > 0) {
+      setErrorMessage(validationErrors);
       return;
     }
 
@@ -60,7 +55,7 @@ const RegisterForm = () => {
         return;
       }
 
-      setErrorMessage("");
+      setErrorMessage({});
       alert("Registration successful!");
     } catch (error) {
       console.error(error.message);
@@ -85,9 +80,13 @@ const RegisterForm = () => {
             name="username"
             value={formData.username}
             onChange={handleChange}
-            required
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {errorMessage.username && (
+            <div className="text-red-500 text-sm mt-2">
+              {errorMessage.username}
+            </div>
+          )}
         </div>
 
         <div className="mb-4">
@@ -103,9 +102,13 @@ const RegisterForm = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {errorMessage.email && (
+            <div className="text-red-500 text-sm mt-2">
+              {errorMessage.email}
+            </div>
+          )}
         </div>
 
         <div className="mb-4 relative">
@@ -121,7 +124,6 @@ const RegisterForm = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            required
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
           />
           <button
@@ -135,6 +137,11 @@ const RegisterForm = () => {
               <span className="text-gray-500">👁️</span>
             )}
           </button>
+          {errorMessage.password && (
+            <div className="text-red-500 text-sm mt-2">
+              {errorMessage.password}
+            </div>
+          )}
         </div>
 
         <div className="mb-4 relative">
@@ -150,7 +157,6 @@ const RegisterForm = () => {
             name="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleChange}
-            required
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
           />
           <button
@@ -164,11 +170,12 @@ const RegisterForm = () => {
               <span className="text-gray-500">👁️</span>
             )}
           </button>
+          {errorMessage.confirmPassword && (
+            <div className="text-red-500 text-sm mt-2">
+              {errorMessage.confirmPassword}
+            </div>
+          )}
         </div>
-
-        {errorMessage && (
-          <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
-        )}
 
         <button
           type="submit"
