@@ -80,6 +80,7 @@ const RegisterForm = () => {
             name="username"
             value={formData.username}
             onChange={handleChange}
+            placeholder="Nickname or username"
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {errorMessage.username && (
@@ -100,6 +101,7 @@ const RegisterForm = () => {
             type="email"
             id="email"
             name="email"
+            placeholder="example@email.com"
             value={formData.email}
             onChange={handleChange}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -122,6 +124,7 @@ const RegisterForm = () => {
             type={showPassword ? "text" : "password"}
             id="password"
             name="password"
+            placeholder="At least 6 characters"
             value={formData.password}
             onChange={handleChange}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
@@ -156,6 +159,7 @@ const RegisterForm = () => {
             id="confirmPassword"
             name="confirmPassword"
             value={formData.confirmPassword}
+            placeholder="Confirm password"
             onChange={handleChange}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
           />
