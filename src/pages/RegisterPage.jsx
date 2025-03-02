@@ -14,7 +14,7 @@ const RegisterPage = () => {
 
         <RegisterForm />
 
-        <p className="text-sm text-gray-500 mt-2 text-center">
+        <p className="text-sm text-gray-500 mt-2 text-center  ">
           We recommend using a combination of uppercase and lowercase letters,
           numbers, and special characters for a more secure password.
         </p>

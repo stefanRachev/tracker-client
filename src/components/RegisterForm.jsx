@@ -113,33 +113,35 @@ const RegisterForm = () => {
           )}
         </div>
 
-        <div className="mb-4 relative">
+        <div className="mb-4">
           <label
             htmlFor="password"
             className="block text-sm font-medium text-gray-700"
           >
             Password <span className="text-red-500">*</span>
           </label>
-          <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            name="password"
-            placeholder="At least 6 characters"
-            value={formData.password}
-            onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 mt-6"
-          >
-            {showPassword ? (
-              <span className="text-gray-500">🙈</span>
-            ) : (
-              <span className="text-gray-500">👁️</span>
-            )}
-          </button>
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              placeholder="At least 6 characters"
+              value={formData.password}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+            >
+              {showPassword ? (
+                <span className="text-gray-500">🙈</span>
+              ) : (
+                <span className="text-gray-500">👁️</span>
+              )}
+            </button>
+          </div>
           {errorMessage.password && (
             <div className="text-red-500 text-sm mt-2">
               {errorMessage.password}
@@ -147,33 +149,35 @@ const RegisterForm = () => {
           )}
         </div>
 
-        <div className="mb-4 relative">
+        <div className="mb-4">
           <label
             htmlFor="confirmPassword"
             className="block text-sm font-medium text-gray-700"
           >
             Confirm Password <span className="text-red-500">*</span>
           </label>
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            id="confirmPassword"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            placeholder="Confirm password"
-            onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
-          />
-          <button
-            type="button"
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 mt-6"
-          >
-            {showConfirmPassword ? (
-              <span className="text-gray-500">🙈</span>
-            ) : (
-              <span className="text-gray-500">👁️</span>
-            )}
-          </button>
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              placeholder="Confirm password"
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+            >
+              {showConfirmPassword ? (
+                <span className="text-gray-500">🙈</span>
+              ) : (
+                <span className="text-gray-500">👁️</span>
+              )}
+            </button>
+          </div>
           {errorMessage.confirmPassword && (
             <div className="text-red-500 text-sm mt-2">
               {errorMessage.confirmPassword}

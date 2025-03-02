@@ -1,12 +1,16 @@
 import { useState } from "react";
+import { validateFields } from "../utils/formValidation";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState({
+    email: "",
+    password: "",
+  });
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
@@ -19,8 +23,10 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.email || !formData.password) {
-      setErrorMessage("Please fill out all fields.");
+    const validationErrors = validateFields(formData);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrorMessage(validationErrors);
       return;
     }
 
@@ -42,7 +48,7 @@ const LoginForm = () => {
         return;
       }
 
-      setErrorMessage("");
+      setErrorMessage({});
     } catch (err) {
       console.error("An error occurred:", err);
     }
@@ -66,43 +72,50 @@ const LoginForm = () => {
             placeholder="Enter your email"
             value={formData.email}
             onChange={handleChange}
-            required
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {errorMessage.email && (
+            <div className="text-red-500 text-sm mt-2">
+              {errorMessage.email}
+            </div>
+          )}
         </div>
-        <div className="mb-4 relative">
+        
+        <div className="mb-4">
           <label
             htmlFor="password"
             className="block text-sm font-medium text-gray-700"
           >
             Password <span className="text-red-500">*</span>
           </label>
-          <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 mt-6"
-          >
-            {showPassword ? (
-              <span className="text-gray-500">🙈</span>
-            ) : (
-              <span className="text-gray-500">👁️</span>
-            )}
-          </button>
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+            >
+              {showPassword ? (
+                <span className="text-gray-500">🙈</span>
+              ) : (
+                <span className="text-gray-500">👁️</span>
+              )}
+            </button>
+          </div>
+          {errorMessage.password && (
+            <div className="text-red-500 text-sm mt-2">
+              {errorMessage.password}
+            </div>
+          )}
         </div>
-
-        {errorMessage && (
-          <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
-        )}
 
         <button
           type="submit"
