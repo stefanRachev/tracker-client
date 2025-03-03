@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { validateFields } from "../utils/formValidation";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +20,9 @@ const RegisterForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -29,7 +35,6 @@ const RegisterForm = () => {
     e.preventDefault();
 
     const validationErrors = validateFields(formData);
-    console.log("Validation Errors:", validationErrors);
 
     if (Object.keys(validationErrors).length > 0) {
       setErrorMessage(validationErrors);
@@ -37,7 +42,7 @@ const RegisterForm = () => {
     }
 
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch(`${API_URL}/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,21 +56,48 @@ const RegisterForm = () => {
 
       if (!response.ok) {
         const data = await response.json();
-        setErrorMessage(data.message || "Registration failed.");
+
+        if (data.errors) {
+          setErrorMessage(data.errors);
+        } else {
+          setErrorMessage({ general: data.message || "Registration failed." });
+        }
         return;
       }
+      const responseData = await response.json();
+      console.log("Registration successful:", responseData);
 
+      setFormData({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
       setErrorMessage({});
-      alert("Registration successful!");
+      setRegistrationSuccess(true);
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000);
     } catch (error) {
       console.error(error.message);
-      setErrorMessage("An error occurred during registration.");
+      setErrorMessage({ general: "An error occurred during registration." });
     }
   };
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
       <h2 className="text-2xl font-bold mb-4 text-center">Registration</h2>
+      {registrationSuccess && (
+        <div className="text-green-500 text-sm mb-4 text-center">
+          Registration successful! Redirecting...
+        </div>
+      )}
+      {errorMessage.general && (
+        <div className="text-red-500 text-sm mb-4 text-center">
+          {errorMessage.general}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="mb-4">
           <label
