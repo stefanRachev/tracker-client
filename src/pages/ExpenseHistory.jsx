@@ -10,6 +10,8 @@ const ExpenseHistory = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
 
   const { user } = useAuth();
   const userId = user?._id;
@@ -28,6 +30,8 @@ const ExpenseHistory = () => {
         category,
         startDate,
         endDate,
+        page,
+        limit: 10,
       }).toString();
 
       const response = await fetch(`${API_URL}/api/expenses?${queryParams}`, {
@@ -42,13 +46,16 @@ const ExpenseHistory = () => {
       }
 
       const data = await response.json();
-      setExpenses(data);
+      setExpenses((prevExpenses) =>
+        page === 1 ? data.expenses : [...prevExpenses, ...data.expenses]
+      );
+      setHasMore(data.hasMore);
     } catch (error) {
       console.error("Error fetching expenses:", error);
     } finally {
       setIsLoading(false);
     }
-  }, [userId, description, category, startDate, endDate]);
+  }, [userId, description, category, startDate, endDate, page]);
 
   useEffect(() => {
     if (userId) {
@@ -61,7 +68,14 @@ const ExpenseHistory = () => {
     setCategory("");
     setStartDate("");
     setEndDate("");
+    setPage(1);
     fetchExpenses();
+  };
+
+  const loadMore = () => {
+    if (hasMore) {
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
   return (
@@ -180,6 +194,17 @@ const ExpenseHistory = () => {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+        {hasMore && (
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={loadMore}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Load More"}
+            </button>
           </div>
         )}
       </div>
