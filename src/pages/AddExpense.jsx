@@ -10,7 +10,6 @@ export default function AddExpense() {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState("");
-  const [tags, setTags] = useState("");
   const [message, setMessage] = useState("");
 
   const { balance, setBalance } = useBalance();
@@ -38,7 +37,6 @@ export default function AddExpense() {
       amount,
       description,
       category,
-      tags: tags.split(",").map((tag) => tag.trim()) || [],
     };
 
     try {
@@ -55,7 +53,6 @@ export default function AddExpense() {
         setDescription("");
         setAmount(0);
         setCategory("");
-        setTags("");
 
         setBalance(balance - newExpense);
 
@@ -129,20 +126,6 @@ export default function AddExpense() {
               <option value="unexpected">Unexpected</option>
               <option value="harmful">Harmful</option>
             </select>
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="tags" className="block mb-2 text-sm font-medium">
-              Tags (comma separated)
-            </label>
-            <input
-              id="tags"
-              type="text"
-              placeholder="e.g., beer, cigarettes, fast food"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              className="p-2 w-full bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-            />
           </div>
 
           <button
