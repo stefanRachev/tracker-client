@@ -7,6 +7,7 @@ import Dashboard from "../pages/Dashboard";
 import SetMonthlyIncome from "../pages/SetMonthlyIncome";
 import AddExpense from "../pages/AddExpense";
 import ExpenseHistory from "../pages/ExpenseHistory";
+import IncomeHistory from "../pages/IncomeHistory";
 import ProtectedRoute from "./ProtectedRoute";
 
 function Content() {
@@ -47,6 +48,14 @@ function Content() {
         element={
           <ProtectedRoute>
             <ExpenseHistory />
+          </ProtectedRoute>
+        }
+      />
+       <Route
+        path="/income-history"
+        element={
+          <ProtectedRoute>
+            <IncomeHistory />
           </ProtectedRoute>
         }
       />
