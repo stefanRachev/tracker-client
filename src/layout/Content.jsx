@@ -7,17 +7,50 @@ import Dashboard from "../pages/Dashboard";
 import SetMonthlyIncome from "../pages/SetMonthlyIncome";
 import AddExpense from "../pages/AddExpense";
 import ExpenseHistory from "../pages/ExpenseHistory";
+import ProtectedRoute from "./ProtectedRoute";
 
 function Content() {
   return (
     <Routes>
+    
       <Route path="/" element={<LandingPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/set-monthly-income" element={<SetMonthlyIncome />} />
-      <Route path="/add-expense" element={<AddExpense />} />
-      <Route path="/expense-history" element={<ExpenseHistory />} />
+
+    
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/set-monthly-income"
+        element={
+          <ProtectedRoute>
+            <SetMonthlyIncome />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/add-expense"
+        element={
+          <ProtectedRoute>
+            <AddExpense />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/expense-history"
+        element={
+          <ProtectedRoute>
+            <ExpenseHistory />
+          </ProtectedRoute>
+        }
+      />
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

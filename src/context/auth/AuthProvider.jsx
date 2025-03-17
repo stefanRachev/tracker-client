@@ -111,21 +111,21 @@ export const AuthProvider = ({ children }) => {
     validateToken();
   }, [validateToken]);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        token,
-        logout,
-        login,
-        isAuthenticated,
-        isLoading,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-};
+    return (
+      <AuthContext.Provider
+        value={{
+          user,
+          token,
+          logout,
+          login,
+          isAuthenticated,
+          isLoading,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    );
+  };
 
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
