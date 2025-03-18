@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../context/auth/useAuth";
+import ExpenseChart from "../components/ExpenseChart";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -83,7 +84,9 @@ const ExpenseHistory = () => {
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
         Expense History
       </h1>
-
+      <div className="w-full md:w-3/4 lg:w-1/2 mx-auto p-6 bg-white rounded-lg shadow-lg mb-6">
+        <ExpenseChart data={expenses} />
+      </div>
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
