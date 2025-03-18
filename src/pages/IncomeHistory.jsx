@@ -11,6 +11,8 @@ const IncomeHistory = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
 
   const { user } = useAuth();
   const userId = user?._id;
@@ -30,6 +32,8 @@ const IncomeHistory = () => {
         subType,
         startDate,
         endDate,
+        page,
+        limit: 10,
       }).toString();
 
       const response = await fetch(`${API_URL}/api/incomes?${queryParams}`, {
@@ -44,13 +48,16 @@ const IncomeHistory = () => {
       }
 
       const data = await response.json();
-      setIncomes(data);
+      setIncomes((prevIncomes) =>
+        page === 1 ? data.incomes : [...prevIncomes, ...data.incomes]
+      );
+      setHasMore(data.hasMore);
     } catch (error) {
       console.error("Error fetching expenses:", error);
     } finally {
       setIsLoading(false);
     }
-  }, [userId, description, type, subType, startDate, endDate]);
+  }, [userId, description, type, subType, startDate, endDate, page]);
 
   useEffect(() => {
     if (userId) {
@@ -60,11 +67,18 @@ const IncomeHistory = () => {
 
   const resetFilters = () => {
     setDescription("");
-    setType(""),
-    setSubType(""), 
+    setType("");
+    setSubType("");
     setStartDate("");
     setEndDate("");
+    setPage(1);
     fetchIncomes();
+  };
+
+  const loadMore = () => {
+    if (hasMore) {
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
   return (
@@ -158,9 +172,7 @@ const IncomeHistory = () => {
                       <td className="p-3 text-gray-800">
                         {income.description}
                       </td>
-                      <td className="p-3 text-gray-800">
-                        {income.amount} lv.
-                      </td>
+                      <td className="p-3 text-gray-800">{income.amount} lv.</td>
                       <td className="p-3 text-gray-800">{income.type}</td>
                       <td className="p-3 text-gray-800">{income.subType}</td>
                       <td className="p-3 text-gray-800">
@@ -174,21 +186,14 @@ const IncomeHistory = () => {
 
             <div className="md:hidden">
               {incomes.map((income) => (
-                <div
-                  key={income._id}
-                  className="border-b p-4 hover:bg-gray-50"
-                >
+                <div key={income._id} className="border-b p-4 hover:bg-gray-50">
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="font-semibold text-gray-800">
                         {income.description}
                       </p>
-                      <p className="text-sm text-gray-600">
-                        {income.type}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        {income.subType}
-                      </p>
+                      <p className="text-sm text-gray-600">{income.type}</p>
+                      <p className="text-sm text-gray-600">{income.subType}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-gray-800">{income.amount} lv.</p>
@@ -200,6 +205,17 @@ const IncomeHistory = () => {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+        {hasMore && (
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={loadMore}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Load More"}
+            </button>
           </div>
         )}
       </div>
