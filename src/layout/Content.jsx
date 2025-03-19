@@ -9,16 +9,15 @@ import AddExpense from "../pages/AddExpense";
 import ExpenseHistory from "../pages/ExpenseHistory";
 import IncomeHistory from "../pages/IncomeHistory";
 import ProtectedRoute from "./ProtectedRoute";
+import CheckCookie from "../pages/CheckCookie";
 
 function Content() {
   return (
     <Routes>
-    
       <Route path="/" element={<LandingPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
 
-    
       <Route
         path="/dashboard"
         element={
@@ -51,11 +50,20 @@ function Content() {
           </ProtectedRoute>
         }
       />
-       <Route
+      <Route
         path="/income-history"
         element={
           <ProtectedRoute>
             <IncomeHistory />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/check-cookie"
+        element={
+          <ProtectedRoute>
+            <CheckCookie />
           </ProtectedRoute>
         }
       />
