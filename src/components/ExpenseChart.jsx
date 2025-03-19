@@ -61,15 +61,15 @@ const ExpenseChart = ({ data }) => {
         </Pie>
         <Tooltip />
         <Legend
-          layout="horizontal" // Легендата ще бъде хоризонтална
-          align="center" // Подравнена в центъра
-          verticalAlign="bottom" // Поставена под графиката
+          layout="horizontal" 
+          align="center" 
+          verticalAlign="bottom" 
           formatter={(value, entry, index) => {
             const percentage = (
               (chartData[index].value / totalAmount) *
               100
             ).toFixed(2);
-            return `${value}: ${percentage}%`; // Показва името и процента
+            return `${value}: ${percentage}%`; 
           }}
         />
       </PieChart>
