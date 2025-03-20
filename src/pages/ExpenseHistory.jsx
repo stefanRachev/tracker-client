@@ -47,6 +47,8 @@ const ExpenseHistory = () => {
       }
 
       const data = await response.json();
+      
+      
 
       setExpenses((prevExpenses) =>
         page === 1 ? data.expenses : [...prevExpenses, ...data.expenses]
