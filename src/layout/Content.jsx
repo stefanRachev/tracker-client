@@ -7,7 +7,7 @@ import Dashboard from "../pages/Dashboard";
 import SetMonthlyIncome from "../pages/SetMonthlyIncome";
 import AddExpense from "../pages/AddExpense";
 import ExpenseHistory from "../pages/ExpenseHistory";
-import IncomeHistory from "../pages/IncomeHistory";
+import IncomeHistory from "../pages/income-history/IncomeHistory";
 import ProtectedRoute from "./ProtectedRoute";
 
 

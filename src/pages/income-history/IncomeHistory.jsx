@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { useAuth } from "../context/auth/useAuth";
-import IncomeChart from "../components/IncomeChart";
+import { useAuth } from "../../context/auth/useAuth";
+import IncomeChart from "../../components/IncomeChart";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -14,6 +14,7 @@ const IncomeHistory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
+  const [editingIncome, setEditingIncome] = useState(null);
 
   const { user } = useAuth();
   const userId = user?._id;
@@ -77,6 +78,56 @@ const IncomeHistory = () => {
     fetchIncomes();
   };
 
+  const handleEdit = (income) => {
+    setEditingIncome(income);
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this income?")) return;
+
+    try {
+      const response = await fetch(`/api/incomes/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        setIncomes(incomes.filter((income) => income._id !== id));
+      } else {
+        console.error("Failed to delete income");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const saveEdit = async () => {
+    try {
+      const response = await fetch(`/api/incomes/${editingIncome._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(editingIncome),
+      });
+  
+      if (response.ok) {
+        setIncomes(
+          incomes.map((inc) =>
+            inc._id === editingIncome._id ? editingIncome : inc
+          )
+        );
+        setEditingIncome(null);
+      } else {
+        console.error("Failed to update income");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
+
   const loadMore = () => {
     if (hasMore) {
       setPage((prevPage) => prevPage + 1);
@@ -93,7 +144,6 @@ const IncomeHistory = () => {
           <IncomeChart data={incomes} />
         </div>
       </div>
-
 
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -186,10 +236,67 @@ const IncomeHistory = () => {
                       <td className="p-3 text-gray-800">
                         {new Date(income.createdAt).toLocaleDateString()}
                       </td>
+                      <td className="p-3 flex gap-2">
+                        <button
+                          onClick={() => handleEdit(income)}
+                          className="text-blue-500 hover:underline"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(income._id)}
+                          className="text-red-500 hover:underline"
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              {editingIncome && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                  <div className="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 className="text-xl font-bold mb-4">Edit Income</h2>
+                    <input
+                      type="text"
+                      value={editingIncome.description}
+                      onChange={(e) =>
+                        setEditingIncome({
+                          ...editingIncome,
+                          description: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded mb-2"
+                    />
+                    <input
+                      type="number"
+                      value={editingIncome.amount}
+                      onChange={(e) =>
+                        setEditingIncome({
+                          ...editingIncome,
+                          amount: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded mb-2"
+                    />
+                    <div className="flex justify-end gap-2">
+                      <button
+                        onClick={() => setEditingIncome(null)}
+                        className="bg-gray-500 text-white px-4 py-2 rounded"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => saveEdit()}
+                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="md:hidden">
