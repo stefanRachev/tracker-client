@@ -9,7 +9,7 @@ import AddExpense from "../pages/AddExpense";
 import ExpenseHistory from "../pages/ExpenseHistory";
 import IncomeHistory from "../pages/IncomeHistory";
 import ProtectedRoute from "./ProtectedRoute";
-import CheckCookie from "../pages/CheckCookie";
+
 
 function Content() {
   return (
@@ -59,15 +59,7 @@ function Content() {
         }
       />
 
-      <Route
-        path="/check-cookie"
-        element={
-          <ProtectedRoute>
-            <CheckCookie />
-          </ProtectedRoute>
-        }
-      />
-
+    
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

@@ -47,7 +47,6 @@ const LoginForm = () => {
           email: formData.email,
           password: formData.password,
         }),
-        credentials: "include",
       });
 
       if (!response.ok) {
@@ -62,7 +61,7 @@ const LoginForm = () => {
       }
 
       const responseData = await response.json();
-      console.log("Login successful:", responseData);
+    
 
       login(responseData.user, responseData.accessToken);
 
