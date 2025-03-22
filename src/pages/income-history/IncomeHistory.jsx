@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../context/auth/useAuth";
 import IncomeChart from "../../components/IncomeChart";
+import {deleteItem} from "../../utils/api"
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,7 +17,7 @@ const IncomeHistory = () => {
   const [hasMore, setHasMore] = useState(false);
   const [editingIncome, setEditingIncome] = useState(null);
 
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const userId = user?._id;
 
   const fetchIncomes = useCallback(async () => {
@@ -84,22 +85,15 @@ const IncomeHistory = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this income?")) return;
-
-    try {
-      const response = await fetch(`/api/incomes/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.ok) {
-        setIncomes(incomes.filter((income) => income._id !== id));
-      } else {
-        console.error("Failed to delete income");
-      }
-    } catch (error) {
-      console.error("Error:", error);
+  
+    const isDeleted = await deleteItem("incomes", id, token);
+    if (isDeleted) {
+      setIncomes((prevIncomes) => prevIncomes.filter((income) => income._id !== id));
+    } else {
+      console.error("Failed to delete income");
     }
   };
+  
 
   const saveEdit = async () => {
     try {
@@ -111,7 +105,7 @@ const IncomeHistory = () => {
         },
         body: JSON.stringify(editingIncome),
       });
-  
+
       if (response.ok) {
         setIncomes(
           incomes.map((inc) =>
@@ -126,7 +120,6 @@ const IncomeHistory = () => {
       console.error("Error:", error);
     }
   };
-  
 
   const loadMore = () => {
     if (hasMore) {
