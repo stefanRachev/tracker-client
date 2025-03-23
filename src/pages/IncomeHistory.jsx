@@ -9,6 +9,7 @@ const IncomeHistory = () => {
     isLoading,
     hasMore,
     editingIncome,
+    setEditingIncome,
     fetchIncomes,
     handleDelete,
     handleEdit,

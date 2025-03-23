@@ -78,6 +78,7 @@ export const IncomeProvider = ({ children }) => {
     isLoading,
     hasMore,
     editingIncome,
+    setEditingIncome,
     fetchIncomes,
     handleDelete,
     handleEdit: setEditingIncome,
