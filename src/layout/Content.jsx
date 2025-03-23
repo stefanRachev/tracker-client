@@ -7,9 +7,9 @@ import Dashboard from "../pages/Dashboard";
 import SetMonthlyIncome from "../pages/SetMonthlyIncome";
 import AddExpense from "../pages/AddExpense";
 import ExpenseHistory from "../pages/ExpenseHistory";
-import IncomeHistory from "../pages/income-history/IncomeHistory";
+import IncomeHistory from "../pages/IncomeHistory";
 import ProtectedRoute from "./ProtectedRoute";
-
+import { IncomeProvider } from "../context/income/IncomeProvider";
 
 function Content() {
   return (
@@ -54,12 +54,13 @@ function Content() {
         path="/income-history"
         element={
           <ProtectedRoute>
-            <IncomeHistory />
+            <IncomeProvider>
+              <IncomeHistory />
+            </IncomeProvider>
           </ProtectedRoute>
         }
       />
 
-    
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

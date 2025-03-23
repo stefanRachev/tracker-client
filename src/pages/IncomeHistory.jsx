@@ -1,73 +1,34 @@
 import { useState, useEffect, useCallback } from "react";
-import { useAuth } from "../../context/auth/useAuth";
-import IncomeChart from "../../components/IncomeChart";
-import {deleteItem} from "../../utils/api"
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { useAuth } from "../context/auth/useAuth";
+import { useIncome } from "../context/income/useIncome";
+import IncomeChart from "../components/IncomeChart";
 
 const IncomeHistory = () => {
-  const [incomes, setIncomes] = useState([]);
+  const {
+    incomes,
+    isLoading,
+    hasMore,
+    editingIncome,
+    fetchIncomes,
+    handleDelete,
+    handleEdit,
+    saveEdit,
+  } = useIncome();
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [subType, setSubType] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(false);
-  const [editingIncome, setEditingIncome] = useState(null);
 
   const { user, token } = useAuth();
   const userId = user?._id;
 
-  const fetchIncomes = useCallback(async () => {
-    setIsLoading(true);
-    if (!userId) {
-      console.error("Invalid userId");
-      setIsLoading(false);
-      return;
-    }
-    try {
-      const queryParams = new URLSearchParams({
-        userId,
-        description,
-        type,
-        subType,
-        startDate,
-        endDate,
-        page,
-        limit: 10,
-      }).toString();
-
-      const response = await fetch(`${API_URL}/api/incomes?${queryParams}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Error fetching expenses");
-      }
-
-      const data = await response.json();
-      console.log(data);
-      setIncomes((prevIncomes) =>
-        page === 1 ? data.incomes : [...prevIncomes, ...data.incomes]
-      );
-      setHasMore(data.hasMore);
-    } catch (error) {
-      console.error("Error fetching expenses:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [userId, description, type, subType, startDate, endDate, page]);
-
-  useEffect(() => {
-    if (userId) {
-      fetchIncomes();
-    }
-  }, [fetchIncomes, userId]);
+  const applyFilters = useCallback(() => {
+    setPage(1);
+    const filters = { description, type, subType, startDate, endDate };
+    fetchIncomes(userId, filters, 1);
+  }, [description, type, subType, startDate, endDate, fetchIncomes, userId]);
 
   const resetFilters = () => {
     setDescription("");
@@ -76,57 +37,30 @@ const IncomeHistory = () => {
     setStartDate("");
     setEndDate("");
     setPage(1);
-    fetchIncomes();
+    fetchIncomes(userId, {}, 1);
   };
 
-  const handleEdit = (income) => {
-    setEditingIncome(income);
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this income?")) return;
-  
-    const isDeleted = await deleteItem("incomes", id, token);
-    if (isDeleted) {
-      setIncomes((prevIncomes) => prevIncomes.filter((income) => income._id !== id));
-    } else {
-      console.error("Failed to delete income");
+  useEffect(() => {
+    if (userId) {
+      const filters = { description, type, subType, startDate, endDate };
+      fetchIncomes(userId, filters, page);
     }
-  };
-  
-
-  const saveEdit = async () => {
-    try {
-      const response = await fetch(`/api/incomes/${editingIncome._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(editingIncome),
-      });
-
-      if (response.ok) {
-        setIncomes(
-          incomes.map((inc) =>
-            inc._id === editingIncome._id ? editingIncome : inc
-          )
-        );
-        setEditingIncome(null);
-      } else {
-        console.error("Failed to update income");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  }, [
+    userId,
+    page,
+    description,
+    type,
+    subType,
+    startDate,
+    endDate,
+    fetchIncomes,
+  ]);
 
   const loadMore = () => {
     if (hasMore) {
       setPage((prevPage) => prevPage + 1);
     }
   };
-
   return (
     <div className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
@@ -191,7 +125,7 @@ const IncomeHistory = () => {
             Reset Filters
           </button>
           <button
-            onClick={fetchIncomes}
+            onClick={applyFilters}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
           >
             Search
@@ -237,7 +171,7 @@ const IncomeHistory = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => handleDelete(income._id)}
+                          onClick={() => handleDelete(income._id, token)}
                           className="text-red-500 hover:underline"
                         >
                           Delete
@@ -309,6 +243,20 @@ const IncomeHistory = () => {
                         {new Date(income.createdAt).toLocaleDateString()}
                       </p>
                     </div>
+                  </div>
+                  <div className="flex justify-end gap-2 mt-2">
+                    <button
+                      onClick={() => handleEdit(income)}
+                      className="text-blue-500 hover:text-blue-600 focus:outline-none"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(income._id, token)}
+                      className="text-red-500 hover:text-red-600 focus:outline-none"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               ))}
